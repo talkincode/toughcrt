@@ -1,0 +1,40 @@
+<%inherit file="base.html"/>
+<%def name="head()">
+<link href="/static/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css"/>
+<script src="/static/js/bootstrap-multiselect.js"></script>
+<script>
+
+$(function(){
+    $('[data-toggle="popover"]').popover();
+    $("select[multiple='multiple']").multiselect({
+      buttonWidth: "100%",
+      includeSelectAllOption: true,
+      enableCaseInsensitiveFiltering: true,
+      maxHeight: 320
+    });
+})
+
+</script>
+</%def>
+<%def name="body()">
+<section class="content">
+    <div class="box box-default">
+        <div class="box-header">
+            <i class="fa fa-edit"></i>
+            <h3 class="box-title">${form.title}</h3>
+            <div class="bar pull-right"><a href="javascript:history.go(-1);"><i class="fa fa-reply"></i> 返回</a></div>
+        </div>
+        <div class="box-body">
+            <div class="container">
+            % if msg:
+            <div class="alert alert-warning">${msg}</div>
+            % endif
+        <form class="form-horizontal form-well bottom20" role="form" action="${form.action}" method="post">
+                ${xsrf_form_html()}
+                ${form.render_css()}
+        </form>
+                </div>
+    </div>
+</div>
+</section>
+</%def>

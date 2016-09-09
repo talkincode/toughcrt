@@ -1,0 +1,13 @@
+Mako
+Beaker
+MarkupSafe
+PyYAML
+Twisted
+cyclone
+six
+pycrypto
+pyOpenSSL>=0.14
+service_identity
+SQLAlchemy
+redis
+psutil

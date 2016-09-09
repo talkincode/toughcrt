@@ -1,0 +1,86 @@
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-top: 50px;
+}
+
+.jumbotron {
+    padding-top: 60px;
+    padding-bottom: 70px;
+    background: linear-gradient(45deg,rgb(0, 25, 39) 0,#238392 100%);
+}
+
+.lbanner h1,
+.lbanner h2{
+    color: rgba(255, 255, 255, 0.70);
+}
+
+.lbanner p{
+    color: rgba(255, 255, 255, 0.53);
+}
+
+.footer-box{
+    margin-top: 90px;
+    background-color: rgba(0, 0, 0, 0.06);
+    padding: 20px 20px 20px 40px;
+    margin-bottom: 0px;
+    min-height: 110px;
+}
+
+footer {
+    
+}
+
+
+.form-group {
+    margin-bottom: 5px;
+}
+
+.form-control {
+    height: 32px;
+}
+
+form .footbotron {
+    padding: 10px;
+    margin:20px 0px 10px 0;
+    color: inherit;
+}
+
+
+.form-inline-group {
+    margin-top: 10px;
+}
+
+.form-well{
+    min-height: 20px;
+    padding: 19px;
+    /*background-color: rgba(247, 247, 247, 0.66);*/
+    /*border: 1px solid rgba(240, 240, 240, 0.42);*/
+    border-radius: 9px;
+    margin-bottom:20px;
+}
+
+
+.modal-header {
+    background: #306DB7;
+    min-height: 16.43px;
+    padding: 15px;
+    color: white;
+    border-bottom: 1px solid #e5e5e5;
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+}
+
+.modal-footer {
+    padding: 5px 10px 5px 10px;
+    text-align: right;
+    border-top: 1px solid #e5e5e5;
+}
+
+
+.modal-resp{
+    float: left!important;
+    padding-top: 6px;
+    padding-left: 10px;
+    display: inline-block;
+    color: rgba(162, 69, 7, 0.6);
+}

@@ -1,0 +1,117 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import os
+try:
+    _path = os.path.abspath(os.path.dirname(__file__))
+    execfile('%s/venv/bin/activate_this.py'%_path, dict(__file__='%s/venv/bin/activate_this.py'%_path))
+except:
+    pass
+
+from txweb import choosereactor
+choosereactor.install_optimal_reactor(False)
+import signal
+import sys,click
+import platform as pf
+sys.path.insert(0,os.path.split(__file__)[0])
+from txweb import config as iconfig
+from txweb import utils
+from txweb.dbutils import get_engine
+from twisted.internet import reactor
+from toughcrt import __version__
+
+def reactor_run():
+    def ExitHandler(signum, stackframe):
+        print "Got signal: %s" % signum
+        reactor.callFromThread(reactor.stop)
+    signal.signal(signal.SIGTERM, ExitHandler)
+    reactor.run()
+
+
+def print_version(ctx, param, value):
+    if not value or ctx.resilient_parsing:
+        return
+    click.echo(click.style("toughcrt {0}".format(__version__),fg='cyan'))
+    ctx.exit()
+
+def print_info(ctx, param, value):
+    if not value or ctx.resilient_parsing:
+        return
+    click.echo(click.style("Linux distribution: {0}".format(','.join(pf.linux_distribution())),fg='cyan'))
+    click.echo(click.style("toughcrt version: {0}".format(__version__),fg='cyan'))
+    click.echo(click.style("Env_home: {0}".format(os.environ.get("HOME")),fg='cyan'))
+    click.echo(click.style("Env_path: {0}".format(os.environ.get("PATH")),fg='cyan'))
+    click.echo(click.style("Server platform: {0},{1}".format(pf.platform(),pf.machine()),fg='cyan'))
+    click.echo(click.style("Python version: {0},{1}".format(pf.python_implementation(), pf.python_version()),fg='cyan'))
+    ctx.exit()
+
+@click.group()
+@click.option('--version', is_flag=True, callback=print_version,expose_value=False, is_eager=True)
+@click.option('--info', is_flag=True, callback=print_info,expose_value=False, is_eager=True, help="server info")
+def cli():
+    pass
+
+@click.command()
+@click.option('-c','--conf', default='/etc/toughcrt.json', help='config file')
+@click.option('-f','--force', is_flag=True)
+def initdb(conf,force):
+    """ initdb command """
+    from toughcrt.common import initdb as init_db
+    config = iconfig.find_config(conf)
+    init_db.update(config,force=force)
+
+
+@click.command()
+@click.option('-c','--conf', default='/etc/toughcrt.json', help='config file')
+@click.option('-name','--tablename', help='table name')
+def addtable(conf,tablename):
+    """ addtable command """
+    from toughcrt.common import initdb as init_db
+    config = iconfig.find_config(conf)
+    init_db.create_table(config,tablename)
+
+@click.command()
+@click.option('-c','--conf', default='/etc/toughcrt.json', help='config file')
+@click.option('-name','--tablename', help='table name')
+def deltable(conf,tablename):
+    """ deltable command """
+    from toughcrt.common import initdb as init_db
+    config = iconfig.find_config(conf)
+    init_db.drop_table(config,tablename)
+
+@click.command()
+@click.option('-c','--conf', default='/etc/toughcrt.json', help='config file')
+@click.option('-name','--tablename', help='table name')
+def redotable(conf,tablename):
+    """ redotable command """
+    from toughcrt.common import initdb as init_db
+    config = iconfig.find_config(conf)
+    init_db.drop_table(config,tablename)
+    init_db.create_table(config,tablename)
+
+
+
+@click.command()
+@click.option('-c','--conf', default='/etc/toughcrt.json', help='config file')
+def inittest(conf):
+    """ initdb command """
+    from toughcrt.common import inittest as init_test
+    config = iconfig.find_config(conf)
+    init_test.update(config)
+
+
+cli.add_command(initdb)
+cli.add_command(addtable)
+cli.add_command(deltable)
+cli.add_command(redotable)
+cli.add_command(inittest)
+
+
+if __name__ == '__main__':
+    cli()
+
+
+
+
+
+
+
