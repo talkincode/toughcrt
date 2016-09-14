@@ -24,11 +24,11 @@ install-deps:
 venv:
 	(\
 	test -d venv || virtualenv venv;\
-	venv/bin/pip install -U pip;\
-	venv/bin/pip install -U wheel;\
-	venv/bin/pip install -U Click;\
-	venv/bin/pip install -U --no-deps https://github.com/talkincode/txweb/archive/master.zip;\
-	venv/bin/pip install -U -r requirements.txt;\
+	source venv/bin/activate && pip install -U pip;\
+	source venv/bin/activate && pip install -U wheel;\
+	source venv/bin/activate && pip install -U Click;\
+	source venv/bin/activate && pip install -U --no-deps https://github.com/talkincode/txweb/archive/master.zip;\
+	source venv/bin/activate && pip install -U -r requirements.txt;\
 	)
 
 
@@ -40,7 +40,7 @@ upgrade:
 
 
 txweb:
-	venv/bin/pip install -U --no-deps https://github.com/talkincode/txweb/archive/master.zip
+	source venv/bin/activate && pip install -U --no-deps https://github.com/talkincode/txweb/archive/master.zip
 
 initdb:
 	python servctl initdb -f -c /etc/toughcrt.json
@@ -63,7 +63,13 @@ reconfig:
 	)
 
 run:
-	venv/bin/txwebctl  --conf=etc/toughcrt.json --dir=toughcrt --logging=none
+	source venv/bin/activate && txwebctl  --conf=etc/toughcrt.json --dir=toughcrt --logging=none
+
+lrun:
+	txwebctl  --conf=etc/toughcrt.json --dir=toughcrt --logging=none
+
+worker:
+	txappctl  --app=worker --conf=etc/toughcrt.json --dir=toughcrt --logging=none
 
 all:install-deps venv install
 

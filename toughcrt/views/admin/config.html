@@ -53,6 +53,9 @@ function go_request_license()
                     <li role="presentation" class="${active=='syslog' and 'active' or '' }">
                         <a href="#syslog" aria-controls="syslog" role="tab" data-toggle="tab">syslog 配置</a>
                     </li>
+                    <li role="presentation" class="${active=='radius' and 'active' or '' }">
+                        <a href="#radius" aria-controls="radius" role="tab" data-toggle="tab">Radius设置</a>
+                    </li>                       
                 </ul>
 
                 <!-- Tab panes -->
@@ -75,6 +78,12 @@ function go_request_license()
                             ${syslog_form.render_css()}
                         </form>
                     </div>
+                    <div role="tabpanel" class="tab-pane ${active=='radius' and 'active' or '' }" id="radius">
+                        <form class="form-horizontal form-well" role="form" action="${radius_form.action}" method="post">
+                            ${xsrf_form_html()}
+                            ${radius_form.render_css()}
+                        </form>
+                    </div>                       
                 </div>
 
             </div>

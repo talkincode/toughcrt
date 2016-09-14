@@ -65,7 +65,7 @@ class SysParam(DeclarativeBase):
 
 class SysRadius(DeclarativeBase):
     """radius节点表 """
-    __tablename__ = 'tt_radius'
+    __tablename__ = 'sys_radius'
 
     __table_args__ = {}
 
@@ -97,7 +97,7 @@ class TTAccountAttr(DeclarativeBase):
     __table_args__ = {}
 
     # column definitions
-    username = Column('username', Unicode(length=32),primary_key=True,doc=u"上网账号")
+    username = Column('username', Unicode(length=32),primary_key=True,nullable=False,doc=u"上网账号")
     attr_name = Column(u'attr_name', Unicode(length=128), primary_key=True, doc=u"属性名")
     attr_value = Column(u'attr_value', Unicode(length=255), nullable=False, doc=u"属性值")
     attr_desc = Column(u'attr_desc', Unicode(length=255), doc=u"属性描述")

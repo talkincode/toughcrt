@@ -1,10 +1,5 @@
 {
-    "web": {
-        "host": "0.0.0.0", 
-        "static_url": "",
-        "port": 8888
-    }, 
-    "conf_file": "config.json", 
+    "conf_file": "/Users/wangjuntao/toughcloud/toughcrt/etc/toughcrt.json", 
     "database": {
         "backup_path": "/tmp/toughcrt/data", 
         "dbtype": "sqlite", 
@@ -12,6 +7,22 @@
         "echo": 0, 
         "pool_recycle": 300, 
         "pool_size": 120
+    }, 
+    "mqproxy": {
+        "radstart_bind": "tcp://*:17001", 
+        "radstart_connect": "tcp://127.0.0.1:17001", 
+        "radresp_bind": "tcp://*:17003", 
+        "radresp_connect": "tcp://127.0.0.1:17003", 
+        "radstop_bind": "tcp://*:17002", 
+        "radstop_connect": "tcp://127.0.0.1:17002"
+    }, 
+    "radius": {
+        "authorize_port": 3799, 
+        "debug": 1, 
+        "host": "0.0.0.0", 
+        "interim_update": 60, 
+        "nasaddr": "127.0.0.1", 
+        "nasid": "toughac"
     }, 
     "redis": {
         "host": "127.0.0.1", 
@@ -29,5 +40,10 @@
         "debug": 1, 
         "secret": "LpWE9AtfDPQ3ufXBS6gJ37WW8TnSF920", 
         "tz": "CST-8"
+    }, 
+    "web": {
+        "host": "0.0.0.0", 
+        "port": 8889, 
+        "static_url": ""
     }
 }

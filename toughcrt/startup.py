@@ -6,7 +6,6 @@ from txweb.dbutils import get_engine
 from mako.lookup import TemplateLookup
 from txweb.dbutils import DBBackup
 from txweb.redis_cache import CacheManager
-from txweb.dbutils import DBBackup
 from txweb import redis_session as session
 from txweb import logger,dispatch,utils
 from txweb.permit import permit, load_handlers, load_events
@@ -14,10 +13,14 @@ from txweb.redis_conf import redis_conf
 from txweb import utils
 from sqlalchemy.orm import scoped_session, sessionmaker
 from twisted.python import log
+from collections import deque
 from toughcrt import models
+import msgpack
+from twisted.internet import reactor, defer
+from txzmq import ZmqEndpoint, ZmqFactory, ZmqPushConnection, ZmqPullConnection, ZmqPubConnection
+from toughcrt.radius.stat_counter import StatCounter
 
-
-def init(gdata):  
+def init(gdata): 
     appname = os.path.basename(gdata.app_dir)
     utils.update_tz(gdata.config.system.tz)
     syslog = logger.Logger(gdata.config,appname)
@@ -56,7 +59,7 @@ def init(gdata):
     gdata.db_backup = DBBackup(models.get_metadata(gdata.db_engine), excludes=[])
 
     #cache event init
-    dispatch.register(gdata.cache)
+    dispatch.register(gdata.cache)  
 
     # app handles init 
     handler_dir = os.path.join(gdata.app_dir,'handlers')
@@ -66,6 +69,21 @@ def init(gdata):
     # app event init
     event_dir = os.path.abspath(os.path.join(gdata.app_dir,'events'))
     load_events(event_dir,"%s.events"%appname)
+
+    # init zmq
+    gdata.radque = deque([],8192) 
+    gdata.radstart = ZmqPushConnection(ZmqFactory(), ZmqEndpoint('bind', gdata.config.mqproxy.radstart_bind))
+    gdata.radstop = ZmqPubConnection(ZmqFactory(), ZmqEndpoint('bind',gdata.config.mqproxy.radstop_bind))
+    gdata.radresp = ZmqPullConnection(ZmqFactory(), ZmqEndpoint('bind', gdata.config.mqproxy.radresp_bind))
+    gdata.radresp.onPull = lambda m: gdata.radque.appendleft(msgpack.unpackb(m[0]))
+    gdata.statcache = StatCounter(gdata)
+    gdata.statcache.init()
+    gdata.statcache.poll_calc()
+    
+    logger.info(gdata.radstart)
+    logger.info(gdata.radstop)
+    logger.info(gdata.radresp)
+
 
 
 

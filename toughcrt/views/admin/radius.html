@@ -1,0 +1,63 @@
+<%inherit file="base.html"/>
+
+<%def name="head()">
+<script>
+    function deleteRadius(radius_id)
+    {
+        if(confirm("确认删除吗？"))
+        {
+            window.location.href = "/admin/radius/delete?radius_id="+radius_id;
+        }
+    }
+</script>
+</%def>
+
+<%def name="body()">
+<section class="content">
+    <div class="box box-default">
+        <div class="box-header">
+            <i class="fa fa-sitemap"></i>
+            <h3 class="box-title">Radius节点列表</h3>
+        </div>
+        <div class="box-body">
+            <div class="container">
+                % if permit.match(current_user.username,'/admin/radius/add'):
+                <div class="pull-right bottom10">
+                    <a href="/admin/radius/add" class="btn btn-sm btn-default">新增Radius服务器</a>
+                </div>
+                % endif
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Radius名称</th>
+                            <th>认证地址</th>
+                            <th>共享密钥</th>
+                            <th>认证端口</th>
+                            <th>计费端口</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        % for item in radius_list:
+                            <tr>
+                                <td>${item.name}</td>
+                                <td>${item.ip_addr}</td>
+                                <td>${item.secret}</td>
+                                <td>${item.auth_port}</td>
+                                <td>${item.acct_port}</td>
+                                <td>
+                                    % if permit.match(current_user.username,'/admin/radius/update'):
+                                    <a class="opt-btn btn-default" href="/admin/radius/update?radius_id=${item.id}">修改</a>
+                                    % endif
+                                    % if permit.match(current_user.username,'/admin/radius/delete'):
+                                    <a class="opt-btn btn-default" href="javascript:deleteRadius('${item.id}')">删除</a>
+                                    % endif
+                                </td>
+                            </tr>
+                        % endfor
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+</%def>

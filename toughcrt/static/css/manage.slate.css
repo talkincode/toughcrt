@@ -85,6 +85,11 @@ a:focus {
     border-radius: 8px;
 }
 
+.well-tm{
+ background-color: #000000;
+ color: #00FE00;
+}
+
 #footer {
     height: 90px;
     background-color: #f3f3f3;
@@ -285,6 +290,11 @@ form .footbotron {
 .skin-blue .main-header .navbar .navbar-nav > li > a {
     border-right: 1px solid rgba(0, 0, 0, 0.2);
     border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.skin-blue .main-header .navbar .nav-statdata > li > a {
+    border-right: none;
+    border-left: none;
 }
 
 .skin-blue .main-header .logo {

@@ -1,5 +1,5 @@
 <%def name="page_nav()">
-<a href="/" class="logo"><img src="${handler.get_param_value('index_logo','/static/img/toughradius-logo.png')}"></a>
+<a href="/" class="logo"><img src="/static/img/toughcrt-white.png"></a>
 <!-- Header Navbar: style can be found in header.less -->
 <nav class="navbar navbar-static-top" role="navigation">
     <!-- Sidebar toggle button-->
@@ -9,10 +9,15 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
     </a>
-
+        <ul class="nav navbar-nav navbar-left nav-statdata">
+            <li><a href="javascript:void(0);">请求总数：<span id="nav_stat_requests">0</span></a></li>
+            <li><a href="javascript:void(0);">响应总数：<span id="nav_stat_replys">0</span></a></li>
+            <li><a href="javascript:void(0);">当前并发：<span id="nav_stat_currcnum">0</span></a></li>
+            <li><a href="javascript:void(0);">并发峰值：<span id="nav_stat_maxcnum">0</span></a></li>
+        </ul>
     <div class="navbar-custom-menu">
+
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="/admin/stat"><i class="fa fa-bar-chart-o"></i> 测试统计</a></li>
             <li><a href="/admin/dashboard"><i class="fa fa-dashboard"></i> 控制面板</a></li>
             <li><a href="/admin/password"><i class="fa fa-key"></i> 修改密码</a></li>
             <li><a href="/admin/logout"><i class="fa fa-sign-out"></i> 退出</a></li>

@@ -11,3 +11,8 @@ service_identity
 SQLAlchemy
 redis
 psutil
+pybeanstalk
+txradius
+txweb
+pyzmq
+txzmq
