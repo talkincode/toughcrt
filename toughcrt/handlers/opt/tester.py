@@ -12,7 +12,7 @@ from toughcrt.handlers.base import BaseHandler, MenuOpt
 from toughcrt.handlers.base import authenticated
 from txweb.permit import permit
 from toughcrt import models
-from toughlib.btforms.rules import is_number
+from txweb.btforms.rules import is_number
 from twisted.internet import defer, reactor
 from toughcrt import models
 

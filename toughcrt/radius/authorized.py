@@ -4,7 +4,7 @@ import os
 import six
 from twisted.internet import protocol, reactor
 from txradius import message
-from toughlib import logger,dispatch
+from txweb import logger,dispatch
 from txradius.radius import dictionary
 from txradius.radius import packet
 from toughcrt.radius.session import RadiusSession
