@@ -11,7 +11,7 @@ from twisted.internet import task
 from twisted.python import log
 from twisted.internet import reactor
 from txradius import message
-from toughlib import dispatch, logger
+from txweb import dispatch, logger
 from toughcrt.radius.radius_loader import RadiusLoader
 from toughcrt.radius import stat_counter as statc
 
