@@ -6,9 +6,9 @@ try:
     execfile('%s/venv/bin/activate_this.py'%_path, dict(__file__='%s/venv/bin/activate_this.py'%_path))
 except:
     pass
-
 from txweb import choosereactor
 choosereactor.install_optimal_reactor(False)
+import re
 import signal
 import sys,click
 import platform as pf
@@ -18,6 +18,8 @@ from txweb import utils
 from txweb.dbutils import get_engine
 from twisted.internet import reactor
 from toughcrt import __version__
+from supervisor.supervisord import main as superd
+from supervisor.supervisorctl import main as superctl
 
 def reactor_run():
     def ExitHandler(signum, stackframe):
@@ -99,12 +101,32 @@ def inittest(conf):
     init_test.update(config)
 
 
+
+@click.command()
+@click.option('-c','--conf', default='etc/toughcrt.conf', help='daemon config file')
+@click.option('-s','--signal', default='status', 
+    help='daemon signal:'
+    '[ start all(procname) '
+    '| stop all(procname) '
+    '| restart all(procname) '
+    '| status '
+    '| reload '
+    '| shutdown ]')
+@click.option('-d','--debug', is_flag=True)
+def daemon(conf,signal,debug):
+    """ 守护进程管理 """
+    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
+    if signal == "startup":
+        sys.exit(superd(args=["-c",conf]))
+    else:
+        sys.exit(superctl(args=["-c",conf,signal]))
+
 cli.add_command(initdb)
 cli.add_command(addtable)
 cli.add_command(deltable)
 cli.add_command(redotable)
 cli.add_command(inittest)
-
+cli.add_command(daemon)
 
 if __name__ == '__main__':
     cli()
